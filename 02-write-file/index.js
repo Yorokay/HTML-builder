@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const { stdin, stdout } = process;
 
-const output = fs.createWriteStream(path.join(__dirname, '02-write-file.txt'));
+fs.createWriteStream(path.join(__dirname, '02-write-file.txt'));
 
 process.on('SIGINT', () => {
   stdout.write('\nGood text! Bye.\n');
@@ -19,6 +19,8 @@ stdin.on('data', (chunk) => {
     console.log();
     process.exit();
   } else {
-    output.write(text);
+    fs.appendFile(path.join(__dirname, '02-write-file.txt'), text, (err) => {
+      if (err) throw err;
+    });
   }
 });
